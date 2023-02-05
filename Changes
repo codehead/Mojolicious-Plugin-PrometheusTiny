@@ -1,4 +1,6 @@
 Revision history for Mojolicious-Plugin-PrometheusTiny
 
 {{$NEXT}}
+
+0.01  2023-02-05 01:59:04 CST
         - Initial release
