@@ -1,0 +1,11 @@
+[TestingAndDebugging::RequireUseStrict]
+severity = 5
+
+[TestingAndDebugging::RequireUseWarnings]
+severity = 5
+
+[-Subroutines::ProhibitSubroutinePrototypes]
+[-NamingConventions::Capitalization]
+[-ValuesAndExpressions::ProhibitMagicNumbers]
+[-Bangs::ProhibitVagueNames]
+[-CodeLayout::RequireTrailingCommaAtNewline]
