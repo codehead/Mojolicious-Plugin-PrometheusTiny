@@ -11,7 +11,7 @@ Mojolicious::Plugin::PrometheusTiny - Export metrics using Prometheus::Tiny::Sha
     plugin 'PrometheusTiny';
 
     # Mojolicious::Lite, with custom response buckets (seconds)
-    plugin 'Prometheus' => { response_buckets => [qw/4 5 6/] };
+    plugin 'PrometheusTiny' => { response_buckets => [qw/4 5 6/] };
 
     # You can add your own route to do access control
     my $under = app->routes->under('/secret' =>sub {
@@ -21,7 +21,20 @@ Mojolicious::Plugin::PrometheusTiny - Export metrics using Prometheus::Tiny::Sha
       $c->render(text => 'Authentication required!', status => 401);
       return undef;
     });
-    plugin PrometheusTiny => {route => $under};
+    plugin PrometheusTiny => {
+        route  => $under,
+        # You may declare additional metrics with their own TYPE and HELP...
+        setup  => sub($app, $p) {
+            $p->declare('mojo_random',
+                type => 'gauge',
+                help => "Custom prometheus gauge"
+            );
+        },
+        # ...and set up a callback to update them right before exporting them
+        update => sub($c, $p) {
+            $p->set(mojo_random => rand(100));
+        },
+    };
 
 # DESCRIPTION
 
@@ -90,7 +103,12 @@ Register plugin in [Mojolicious](https://metacpan.org/pod/Mojolicious) applicati
 
 - duration\_buckets
 
-    Override buckets for request duration histogram.
+    Override buckets for request duration         setup  => sub($app, $p) {
+                $p->declare('mojo\_random',
+                    type => 'gauge',
+                    help => "Custom prometheus gauge"
+                );
+            }histogram.
 
     Default: `[1..10, 20, 30, 60, 120, 300, 600, 1_200, 3_600, 6_000, 12_000]`
 
@@ -109,23 +127,14 @@ Register plugin in [Mojolicious](https://metacpan.org/pod/Mojolicious) applicati
 - setup
 
     Coderef to be executed during setup. Receives as arguments Application and Prometheus instances.
-     It can be used to declare and/or initialize new metrics.
-
-            setup  => sub($app, $p) {
-                $p->declare('mojo_random',
-                    type => 'gauge',
-                    help => "Custom prometheus gauge"
-                );
-            }
+     Can be used to declare and/or initialize new metrics. Though it is trivial to use $app->prometheus
+     to declare metrics after plugin setup, code is more readable and easier to maintain
+     when actions are listed in their natural order.
 
 - update
 
     Coderef to be executed right before invoking exporter action configured in `path`.
      Receives as arguments Controller and Prometheus instances.
-
-        update => sub($c, $p) {
-            $p->set(mojo_random => rand(100));
-        }
 
 # METRICS
 
