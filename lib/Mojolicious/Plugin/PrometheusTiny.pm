@@ -3,7 +3,7 @@ use Mojo::Base 'Mojolicious::Plugin', -signatures;
 use Time::HiRes qw/gettimeofday tv_interval/;
 use Prometheus::Tiny::Shared;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 has prometheus => sub {Prometheus::Tiny::Shared->new()};
 has route => undef;

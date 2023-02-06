@@ -49,9 +49,7 @@ There is no support for namespaces, subsystems or any other fancy Net::Prometheu
 
 # CODE QUALITY NOTICE
 
-This is BETA code which is still subject to change.
-
-# HELPERS
+This is BETA code =head1 HELPERS
 
 ## prometheus
 

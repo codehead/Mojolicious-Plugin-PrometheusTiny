@@ -58,7 +58,7 @@
          "web" : "https://github.com/codehead/Mojolicious-Plugin-PrometheusTiny"
       }
    },
-   "version" : "0.01",
+   "version" : "0.02",
    "x_contributors" : [
       "Javier Arturo Rodriguez <javier@rodriguez.org.mx>"
    ],
